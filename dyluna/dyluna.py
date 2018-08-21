@@ -4,7 +4,7 @@ def notfound(environ,start_response):
 	start_response('404 OK', [('Content-Type', 'text/plain')])
 	return [bytes(404)]
 
-class Flapo():
+class Dyluna():
 	def __init__(self,urls):
 		self.urls = urls
 	def application(self,environ, start_response):

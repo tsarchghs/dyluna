@@ -4,7 +4,7 @@ import setuptools
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-setup(name='flapo',
+setup(name='dyluna',
       description='A simple wsgi web framework',
       long_description=long_description,
       version='0.1',
@@ -18,9 +18,8 @@ setup(name='flapo',
           'License :: OSI Approved :: Apache Software License',
           'Programming Language :: Python :: 3'
       ],
-      packages=['flapo'],
+      packages=['dyluna'],
       install_requires=[
-          'PyYAML>=3.11',
-          'sh>=1.11'
+          setuptools.find_packages()
       ]
 )

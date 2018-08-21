@@ -6,7 +6,9 @@ Home-page: https://github.com/gjergjk71/flapo
 Author: Gjergj Kadriu
 Author-email: gjergjk71@gmail.com
 License: Apache2
-Description: UNKNOWN
+Description: # flapo
+        A very simple wsgi web framework
+        
 Platform: UNKNOWN
 Classifier: Development Status :: 4 - Beta
 Classifier: Intended Audience :: System Administrators
