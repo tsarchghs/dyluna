@@ -1,7 +1,0 @@
-README.md
-setup.py
-flapo/flapo.py
-flapo.egg-info/PKG-INFO
-flapo.egg-info/SOURCES.txt
-flapo.egg-info/dependency_links.txt
-flapo.egg-info/top_level.txt
