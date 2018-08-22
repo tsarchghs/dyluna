@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 setup(name='dyluna',
       description='A simple wsgi web framework',
       long_description=long_description,
-      version='0.4',
+      version='0.5',
       url='https://github.com/gjergjk71/dyluna',
       author='Gjergj Kadriu',
       author_email='gjergjk71@gmail.com',
