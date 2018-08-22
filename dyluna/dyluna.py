@@ -9,7 +9,7 @@ class Dyluna():
 		self.urls = urls
 	def application(self,environ, start_response):
 		path = environ.get("PATH_INFO","")
-		for regex,callback in urls:
+		for regex,callback in self.urls:
 			if regex == path:
 				#l = int(environ.get('CONTENT_LENGTH'))
 				#print(environ['wsgi.input'].read(l))
