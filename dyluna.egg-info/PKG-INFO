@@ -1,6 +1,6 @@
 Metadata-Version: 1.1
 Name: dyluna
-Version: 0.4
+Version: 0.5
 Summary: A simple wsgi web framework
 Home-page: https://github.com/gjergjk71/dyluna
 Author: Gjergj Kadriu
