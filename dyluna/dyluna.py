@@ -4,6 +4,10 @@ def notfound(environ,start_response):
 	start_response('404 OK', [('Content-Type', 'text/plain')])
 	return [bytes(404)]
 
+def render_template(path):
+	template = open("templates/{}".format(path),"rb").read()
+	return [template]
+
 class Dyluna():
 	def __init__(self):
 		self.urls = []
