@@ -1,8 +1,8 @@
 from io import BytesIO
 
-def notfound(environ,start_response):
-	start_response('404 OK', [('Content-Type', 'text/plain')])
-	return [bytes(404)]
+def abort(environ,start_response,error,message):
+	start_response('{} OK'.format(error), [('Content-Type', 'text/html')])
+	return bytes("{}".format(message).encode("utf-8"))
 
 def render_template(path):
 	template = open("templates/{}".format(path),"rb").read()
@@ -27,7 +27,7 @@ class Dyluna():
 				#l = int(environ.get('CONTENT_LENGTH'))
 				#print(environ['wsgi.input'].read(l))
 				return callback(environ, start_response,*args,**kwargs)
-		return notfound(environ,start_response)
+		return abort(environ,start_response,404,"Page not found!")
 	def run(self,host="127.0.0.1",port=8080):
 		from paste import httpserver
 		httpserver.serve(self.application,host=host,port=port)
