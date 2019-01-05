@@ -1,5 +1,20 @@
 from io import BytesIO
 
+def get_url_parameters(string):
+	params = []
+	val = ""
+	start = False
+	for ch in string:
+		if ch == ">":
+			start = False
+			params.append(val)
+			val = ""
+		if start:
+			val += ch
+		if ch == "<":
+			start = True
+	print(params)
+
 def abort(environ,start_response,error,message):
 	start_response('{} OK'.format(error), [('Content-Type', 'text/html')])
 	return bytes("{}".format(message).encode("utf-8"))
