@@ -13,7 +13,7 @@ def get_url_parameters(string):
 			val += ch
 		if ch == "<":
 			start = True
-	print(params)
+	return params
 
 def abort(environ,start_response,error,message):
 	start_response('{} OK'.format(error), [('Content-Type', 'text/html')])
