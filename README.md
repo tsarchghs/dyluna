@@ -31,10 +31,10 @@ hello.html
 	{% if name %}
 		<h1>Hello, {{name}}</h1>
 	{% else %}
-	<form method="POST">
-		name: <input name="name"><br>
-        <button type="submit">Submit</button>
-	</form>
+		<form method="POST">
+			name: <input name="name"><br>
+		<button type="submit">Submit</button>
+		</form>
 	{% endif %}
 </body>
 </html>
