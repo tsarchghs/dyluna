@@ -5,7 +5,7 @@ def get_url_parameters(url):
 	params = {}
 	val = ""
 	start = False
-	url_parts = url.split("/")
+	url_parts = [url_part for url_part in url.split("/") if url_part]
 	partN = 0
 	for url_part in url_parts:
 		if url_part:
@@ -16,7 +16,7 @@ def get_url_parameters(url):
 
 def get_url_arguments(url,params):
 	param_arg = {}
-	url_parts = url.split("/")
+	url_parts = [url_part for url_part in url.split("/") if url_part]
 	partN = 0;
 	for location,parameter in params.items():
 		try:
@@ -48,23 +48,20 @@ class Dyluna():
 		return func_wrapper
 	def application(self,environ, start_response,*args,**kwargs):
 		path = environ.get("PATH_INFO","")
+		args = OrderedDict()
+		args["environ"] = environ
+		args["start_response"] = start_response
 		for regex,callback in self.urls:
 			if regex == path:
 				#l = int(environ.get('CONTENT_LENGTH'))
 				#print(environ['wsgi.input'].read(l))
-				return callback(environ, start_response,*args,**kwargs)
+				return callback(args)
 			elif "<" in regex and ">" in regex:
 				params = get_url_parameters(regex)
 				param_arg = get_url_arguments(path,params)
-				args = OrderedDict()
-				args["environ"] = environ
-				args["start_response"] = start_response
-				print(param_arg)
-				for param,arg in param_arg.items():
-					args[param] = arg
-				args["*args"] = args
-				args["**kwargs"] = kwargs
-				if kwargs != 1:
+				if param_arg != 1:
+					for param,arg in param_arg.items():
+						args[param] = arg
 					return callback(args)
 		return abort(environ,start_response,404,"Page not found!")
 	def run(self,host="127.0.0.1",port=8080):
