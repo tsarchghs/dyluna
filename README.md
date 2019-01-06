@@ -3,21 +3,52 @@ A very simple wsgi based python web framework
 
 Example:
 ```python
-from dyluna.dyluna import Dyluna
-from dyluna.dyluna import render_template
-
 app = Dyluna()
 
 @app.route
-def helloworld(environ):
-    return "Hello world"
-app.urls.append(["/helloworld",helloworld]) #Route "/helloworld" will call helloworld view
+def hello(environ):
+	if environ.get("REQUEST_METHOD") == "POST":
+		name = environ["POST"].get("name")
+		return render_template("index.html",{"name":name})
+	return render_template("hello.html")
+app.urls.append(["/hello",hello])
 
 @app.route
-def index(environ):
-    return render_template("index.html") #it will look for templates/index.html
-app.urls.append(["/",index]) #Route "/" will call index view
+def hello(environ,name):
+	context = {"name":name}
+	return render_template("hello2.html",context)
+app.urls.append(["/hello/<name>",hello])
 
-app.run() #default port 8080
-```	
+app.run()
+```
+hello.html
+```html
+<html>
+<head>
+	<title>Hello</title>
+</head>
+<body>
+	{% if name %}
+		<h1>Hello, {{name}}</h1>
+	{% else %}
+	<form method="POST">
+		name: <input name="name"><br>
+        <button type="submit">Submit</button>
+	</form>
+	{% endif %}
+</body>
+</html>
+```
+hello2.html
+```html
+<html>
+
+<head>
+	<title>Hello</title>
+</head>
+<body>
+	<h1>Hello, {{name}}</h1>
+</body>
+</html>
+```
 Run the code and visit http://127.0.0.1:8080/
