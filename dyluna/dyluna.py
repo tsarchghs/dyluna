@@ -1,5 +1,6 @@
 from io import BytesIO
 from collections import OrderedDict
+from jinja2 import Template
 
 def get_url_parameters(url):
 	params = {}
@@ -29,9 +30,11 @@ def abort(environ,start_response,error,message):
 	start_response('{} OK'.format(error), [('Content-Type', 'text/html')])
 	return bytes("{}".format(message).encode("utf-8"))
 
-def render_template(path):
-	template = open("templates/{}".format(path),"rb").read()
-	return [template]
+def render_template(path,context):
+	html = open("templates/{}".format(path),"r").read()
+	template = Template(html)
+	template = template.render(**context)
+	return [bytes(template.encode("utf-8"))]
 
 class Dyluna():
 	def __init__(self):
