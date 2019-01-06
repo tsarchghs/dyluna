@@ -30,11 +30,25 @@ def abort(environ,start_response,error,message):
 	start_response('{} OK'.format(error), [('Content-Type', 'text/html')])
 	return bytes("{}".format(message).encode("utf-8"))
 
-def render_template(path,context):
+def render_template(path,context={}):
 	html = open("templates/{}".format(path),"r").read()
 	template = Template(html)
 	template = template.render(**context)
 	return [bytes(template.encode("utf-8"))]
+
+def get_form_data(form,REQUEST_METHOD,l):
+	formatted = {}
+	if REQUEST_METHOD == "POST" and l:
+		form = form.split(b"=")
+		for x in range(len(form)):
+			try:
+				formatted[form[x]] = form[x+1]
+			except IndexError:
+				break
+		formatted = {key.decode():value.decode() for key,value in formatted.items()}
+	else:
+		formatted = {}
+	return formatted
 
 class Dyluna():
 	def __init__(self):
@@ -56,8 +70,9 @@ class Dyluna():
 		args["start_response"] = start_response
 		for regex,callback in self.urls:
 			if regex == path:
-				#l = int(environ.get('CONTENT_LENGTH'))
-				#print(environ['wsgi.input'].read(l))
+				l = int(environ.get('CONTENT_LENGTH'))
+				form = environ['wsgi.input'].read(l)
+				environ["POST"] = get_form_data(form,environ["REQUEST_METHOD"],l)
 				return callback(args)
 			elif "<" in regex and ">" in regex:
 				params = get_url_parameters(regex)
